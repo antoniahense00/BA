@@ -5,6 +5,7 @@ Spyder Editor
 This is a temporary script file.
 """
 
+
 # %% Import
 
 import pandas as pd
@@ -29,11 +30,13 @@ i_temp = int(i_temp)
 c_temp = data['max_Temp'].values
 c_temp = c_temp.astype('int')
 
+min_temp = data['min_Temp'].values
+min_temp = min_temp.astype('int')
 
 for element in c_temp:
     if element > i_temp:
         t.append(1)
-    else: 
+    else:
         p_temp = element/i_temp
         t.append(round(p_temp,2))
         
@@ -74,14 +77,10 @@ for element in kapa:
 # %% plot
 
 kenn = ["Temperatur", "konstante Ausspeichertemperatur", "Speicherkapazität"]
-speicher = ["Sand","Ziegelstein","Beton","Stahlschlacke"]
+speicher = ["Sand","Ziegelstein","Beton","Stahlschlacke","Aluminium in Graphit"]
 
 heatmap = np.array([t,k,sk])
 
-""" harvest = np.array([[0.8, 2.4],
-                    [2.4, 0.0],
-                    [1.3, 1.7]])
-"""
 
 fig, ax = plt.subplots()
 im = ax.imshow(heatmap)
@@ -108,3 +107,12 @@ plt.show()
 
 # %% Tabelle
 
+summe = []
+
+summe = np.sum(heatmap, axis = 0) 
+summe = summe.tolist()
+
+summe_speicher = [summe,speicher]
+
+summe_sortiert = summe.copy()
+summe_sortiert.sort(reverse=True)
