@@ -8,8 +8,8 @@ Created on Thu Aug 10 13:13:28 2023
 
 import pandas as pd
 import numpy as np
-import matplotlib
-import matplotlib as mpl
+#import matplotlib
+#import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 class modell:
@@ -22,12 +22,11 @@ class modell:
     heatmap = []
     counter = 0.0
     
-    #Methode zum laden der Speicherdaten
+    #%% Methode zum Laden der Speicherdaten
     def load_data(self, dateiname):
        self.data = pd.read_excel(dateiname)
-       #return self.data
        
-    #Methode zum hinzufügen der Kennwerte; erstellt ein 2D-Array 
+    #%% Methode zum hinzufügen der Kennwerte; erstellt ein 2D-Array parameter
     def add_kennwert(self, kennwert, inhalt, flag: bool = False):
         
         speicher_vorhanden = False
@@ -48,83 +47,30 @@ class modell:
             print('-----------------------')
             
             
-    def add_maxTemp(self):
-        print(1)
-        max_Temp = []
-       
-        for i in range(0,len(self.parameter)):
-            
-            if self.parameter[i][0] == "max_Temp":
-               
-                for element in self.data['max_Temp'].values.astype('int'):
-                    if element > self.parameter[i][1]:
-                        max_Temp.append(1)
-                        
-                    else:
-                        p_temp = element/self.parameter[i][1]
-                        max_Temp.append(round(p_temp,2))
-                        
-                if len(self.heatmap) == 0:
-                    self.heatmap = max_Temp
-                else:
-                    self.heatmap = np.vstack([self.heatmap, max_Temp]) 
-                    
-    def add_minTemp(self):
-        min_Temp = []
-       
-        for i in range(0,len(self.parameter)):
-           
-            if self.parameter[i][0] == "min_Temp":
-               
-                for element in self.data['min_Temp'].values.astype('int'):
-                    if element < self.parameter[i][1]:
-                        min_Temp.append(1)
-                        
-                    else:
-                        p_temp = self.parameter[i][1]/element
-                        min_Temp.append(round(p_temp,2))
-                        
-                if len(self.heatmap) == 0:
-                    self.heatmap = min_Temp
-                else:
-                    self.heatmap = np.vstack([self.heatmap,min_Temp]) 
-                    
-                    
-    def add_konstanteTemp(self):
-        k_Temp = []
-        for i in range(0,len(self.parameter)):
-           
-            if self.parameter[i][0] == 'konstante_Temp':
-               
-                for element in self.data['konstante_Temp'].values:
-                    if element == self.parameter[i][1]:
-                        k_Temp.append(1)
-                        
-                    else:
-                        k_Temp.append(0)
-                        
-                if len(self.heatmap) == 0:
-                    self.heatmap = k_Temp
-                else:
-                    self.heatmap = np.vstack([self.heatmap,k_Temp]) 
       
-        #%% Methode zur Erstellung der Heatmap
-        
+    #%% Methode zur Erstellung der Heatmap   
     def create_heatmap(self):
         
         for element in self.kennwerte_hm:
-            print(2)
+            
+            if element == 'Speicherart':
+                self.add_Speicherart()
+            if element == 'Speichermaterial':
+                self.add_Speichermaterial()
             if element == 'max_Temp': 
-                print(3)
                 self.add_maxTemp()     
             if element == 'min_Temp':
                 self.add_minTemp()
             if element == 'konstante_Temp':
                 self.add_konstanteTemp()
-                
-        
-                        
+            if element == 'Speicherkapazität':
+                self.add_Speicherkapazitaet()
+           # if element == 'Speicherzeitraum':
+            #    self.add_Speicherzeitraum()
+            #if element == 'Lebensdauer':
+             #   self.add_Lebensdauer()
             
+        
        # Heatmap Erstellung
        
        # kenn = ["Temperatur", "konstante Ausspeichertemperatur", "Speicherkapazität"]
@@ -185,7 +131,125 @@ class modell:
             if sorted_array[i][0].astype('float') != self.counter:
                 print(sorted_array[i][1])
         
-
+    #%% Methode um eine Speicherart hinzuzufügen                 
+    def add_Speicherart(self):
+        speicherart = []
+        for i in range(0,len(self.parameter)):
+           
+            if self.parameter[i][0] == 'Speicherart':
+               
+                for element in self.data['Speicherart'].values:
+                    if element == self.parameter[i][1]:
+                        speicherart.append(1)
+                    else:
+                        speicherart.append(0)   
+                if len(self.heatmap) == 0:
+                    self.heatmap = speicherart
+                else:
+                    self.heatmap = np.vstack([self.heatmap,speicherart])     
+                     
+                    
+    #%% Methode um eine Speichermaterial hinzuzufügen                 
+    def add_Speichermaterial(self):
+        speichermaterial = []
+        for i in range(0,len(self.parameter)):
+           
+            if self.parameter[i][0] == 'Speichermaterial':
+               
+                for element in self.data['Speichermaterial'].values:
+                    if element == self.parameter[i][1]:
+                        speichermaterial.append(1)
+                    else:
+                        speichermaterial.append(0)   
+                if len(self.heatmap) == 0:
+                    self.heatmap = speichermaterial
+                else:
+                    self.heatmap = np.vstack([self.heatmap,speichermaterial])
+                     
+    #%% Methode um die maximal Temperatur hinzuzufügen       
+    def add_maxTemp(self):
+        
+        max_Temp = []
+       
+        for i in range(0,len(self.parameter)):
+            
+            if self.parameter[i][0] == "max_Temp":
+               
+                for element in self.data['max_Temp'].values.astype('int'):
+                    if element > self.parameter[i][1]:
+                        max_Temp.append(1)
+                        
+                    else:
+                        p_temp = element/self.parameter[i][1]
+                        max_Temp.append(round(p_temp,2))
+                        
+                if len(self.heatmap) == 0:
+                    self.heatmap = max_Temp
+                else:
+                    self.heatmap = np.vstack([self.heatmap, max_Temp]) 
+    
+    #%% Methode um die minimal Temperatur hinzuzufügen                  
+    def add_minTemp(self):
+        min_Temp = []
+       
+        for i in range(0,len(self.parameter)):
+           
+            if self.parameter[i][0] == "min_Temp":
+               
+                for element in self.data['min_Temp'].values.astype('int'):
+                    if element < self.parameter[i][1]:
+                        min_Temp.append(1)
+                        
+                    else:
+                        p_temp = self.parameter[i][1]/element
+                        min_Temp.append(round(p_temp,2))
+                        
+                if len(self.heatmap) == 0:
+                    self.heatmap = min_Temp
+                else:
+                    self.heatmap = np.vstack([self.heatmap,min_Temp]) 
+                    
+    #%% Methode um eine konstante Temperatur hinzuzufügen                 
+    def add_konstanteTemp(self):
+        k_Temp = []
+        for i in range(0,len(self.parameter)):
+           
+            if self.parameter[i][0] == 'konstante_Temp':
+               
+                for element in self.data['konstante_Temp'].values:
+                    if element == self.parameter[i][1]:
+                        k_Temp.append(1)
+                        
+                    else:
+                        k_Temp.append(0)
+                        
+                if len(self.heatmap) == 0:
+                    self.heatmap = k_Temp
+                else:
+                    self.heatmap = np.vstack([self.heatmap,k_Temp]) 
+                    
+    #%% Methode um die maximal Temperatur hinzuzufügen       
+    def add_Speicherkapazitaet(self):
+        
+        speicherkapa = []
+       
+        for i in range(0,len(self.parameter)):
+            
+            if self.parameter[i][0] == 'Speicherkapazität':
+               
+                for element in self.data['Speicherkapazität'].values.astype('int'):
+                    if element > self.parameter[i][1]:
+                        speicherkapa.append(1)
+                        
+                    else:
+                        p_temp = element/self.parameter[i][1]
+                        speicherkapa.append(round(p_temp,2))
+                        
+                if len(self.heatmap) == 0:
+                    self.heatmap = speicherkapa
+                else:
+                    self.heatmap = np.vstack([self.heatmap, speicherkapa]) 
+      
 """
     def create_list(self):
         
