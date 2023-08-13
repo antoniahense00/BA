@@ -162,6 +162,8 @@ class modell:
                 for element in self.data['Speicherart'].values:
                     if element == self.parameter[i][1]:
                         speicherart.append(1)
+                    elif self.parameter[i][2]==True:
+                        speicherart.append(-10)
                     else:
                         speicherart.append(0)   
                 if len(self.heatmap) == 0:
@@ -180,6 +182,8 @@ class modell:
                 for element in self.data['Speichermaterial'].values:
                     if element == self.parameter[i][1]:
                         speichermaterial.append(1)
+                    elif self.parameter[i][2]==True:
+                        speichermaterial.append(-10)
                     else:
                         speichermaterial.append(0)   
                 if len(self.heatmap) == 0:
@@ -199,7 +203,8 @@ class modell:
                 for element in self.data['max_Temp'].values.astype('int'):
                     if element > self.parameter[i][1]:
                         max_Temp.append(1)
-                        
+                    elif self.parameter[i][2]==True:
+                        max_Temp.append(-10)                     
                     else:
                         p_temp = element/self.parameter[i][1]
                         max_Temp.append(round(p_temp,2))
@@ -221,10 +226,11 @@ class modell:
                     if element < self.parameter[i][1]:
                         min_Temp.append(1)
                         
-                    else:
+                    elif self.parameter[i][2]==True:
                         min_Temp.append(-10)
-                        #p_temp = self.parameter[i][1]/element
-                        #min_Temp.append(round(p_temp,2))
+                    else:
+                        p_temp = self.parameter[i][1]/element
+                        min_Temp.append(round(p_temp,2))
                         
                 if len(self.heatmap) == 0:
                     self.heatmap = min_Temp
@@ -241,7 +247,8 @@ class modell:
                 for element in self.data['konstante_Temp'].values:
                     if element == self.parameter[i][1]:
                         k_Temp.append(1)
-                        
+                    elif self.parameter[i][2]==True:
+                        k_Temp.append(-10)                     
                     else:
                         k_Temp.append(0)
                         
@@ -262,7 +269,8 @@ class modell:
                 for element in self.data['Speicherkapazität'].values.astype('int'):
                     if element > self.parameter[i][1]:
                         speicherkapa.append(1)
-                        
+                    elif self.parameter[i][2]==True:
+                        speicherkapa.append(-10)                         
                     else:
                         p_temp = element/self.parameter[i][1]
                         speicherkapa.append(round(p_temp,2))
@@ -284,7 +292,8 @@ class modell:
                 for element in self.data['Lebensdauer'].values.astype('int'):
                     if element > self.parameter[i][1]:
                         lebensdauer.append(1)
-                        
+                    elif self.parameter[i][2]==True:
+                        lebensdauer.append(-10)                         
                     else:
                         p_temp = element/self.parameter[i][1]
                         lebensdauer.append(round(p_temp,2))
