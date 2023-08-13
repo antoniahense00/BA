@@ -20,7 +20,7 @@ a.load_data("Speicherdaten_FW.xlsx")
 a.add_kennwert("min_Temp", 90, True)
 #a.add_kennwert("konstante_Temp", "Ja")
 a.add_kennwert("max_Temp", 1000)
-a.add_kennwert("min", 200)
+a.add_kennwert("minTemp", 200)
 a.add_kennwert('Speicherart', 'Sensibel')
 a.add_kennwert('Speicherkapazität', 2300)
 
